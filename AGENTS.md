@@ -1,5 +1,122 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# ResumeEvolver Repo Contract
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+## Product definition
+
+ResumeEvolver is a private career evidence ledger.
+
+It exists to help one user capture proof of real work, review that proof deliberately, and generate traceable resume bullets or changelog drafts from approved evidence only.
+
+## Non-goals
+
+Do not turn this into:
+
+- an AI resume writer
+- a LinkedIn clone
+- a portfolio site builder
+- a build-in-public product
+- a generic AI coach
+- an ATS or job tracker
+- a team collaboration tool
+- a file upload system
+- a commit clustering system
+
+## Trust model
+
+- Evidence items are the only source of truth.
+- Resume bullets, changelog entries, and exports are derived objects.
+- AI may suggest structure, proof strength, proof gaps, role relevance, and drafts.
+- AI may not invent accomplishments, invent metrics, infer business impact from GitHub activity alone, auto-approve evidence, strengthen claims silently, or use unapproved evidence for generation.
+- Public-safe is an explicit approval state, never a default.
+- Every generated output must remain linked to supporting evidence item IDs.
+
+## Build order
+
+1. Foundation
+2. Manual evidence flow
+3. Ledger
+4. GitHub import
+5. Role variants and resume drafting
+6. Changelog drafting
+7. Exports and review-cycle polish
+
+Do not skip ahead without an explicit user request.
+
+## Coding rules
+
+- Use TypeScript throughout.
+- Prefer simple code and clear domain boundaries over abstractions.
+- Keep reads in server-side query helpers and writes in route handlers.
+- Do not introduce an ORM in v1.
+- Do not introduce background jobs in v1.
+- Validate external input with Zod.
+- Version prompt templates in `prompts/`.
+- Keep domain logic out of presentational components.
+- Avoid speculative abstractions for future integrations.
+
+## UX rules
+
+- Private-first by default.
+- Fast capture.
+- Deliberate review.
+- Traceable generation.
+- Lightweight monthly usage.
+- No social-product cues.
+- No enterprise-compliance feel.
+
+## Security rules
+
+- RLS must be enabled on every user-owned table from day one.
+- Never use `service_role` in normal application request paths.
+- Reject cross-user access everywhere.
+- Generation must fail closed if any evidence is not approved.
+- GitHub import must stay explicitly repo-scoped and time-window scoped.
+- Treat provider tokens as ephemeral and session-bound.
+- Do not log provider tokens, raw evidence bodies, or generated export content.
+
+## Data rules
+
+- `metadata`, `ai_structured_payload`, and `generation_metadata` must stay bounded and documented.
+- Do not add per-type evidence tables in v1.
+- Do not store claims during GitHub import.
+- Do not allow normal hard-delete flows for linked evidence.
+
+## Do not add
+
+- artifact uploads
+- PDF export
+- commit clustering
+- Slack, Jira, Notion, Gmail, or other connectors
+- team features
+- vanity analytics
+- public profile pages
+- social posting flows
+
+## Testing expectations
+
+- Add pgTAP coverage for every migration that changes user-owned tables or RLS.
+- Keep unit tests for domain rules and serializers.
+- Keep integration tests for route handlers and query helpers.
+- Keep e2e coverage to smoke flows only.
+- Do not rely on live GitHub or live model calls in CI.
+
+## Migration discipline
+
+- Use forward-only SQL migrations.
+- Keep enums and constraints explicit.
+- Update `docs/DOMAIN.md` and `docs/API.md` when schema or API contracts change.
+- Prefer idempotent migration statements where practical.
+
+## Done for v1
+
+Work is only done when:
+
+- manual evidence capture works
+- GitHub import works for selected public repos
+- imported GitHub records land as `draft` and `unreviewed`
+- approval states are enforced
+- resume generation rejects unapproved evidence
+- changelog generation rejects unapproved evidence
+- generated outputs expose linked evidence
+- markdown, text, and JSON exports work
+- RLS prevents cross-user access
+- public-safe output remains explicit

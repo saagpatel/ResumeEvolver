@@ -1,66 +1,58 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { GitHubSignInButton } from "@/components/auth/github-sign-in-button";
+import { getViewer } from "@/lib/auth/viewer";
 
-export default function Home() {
+export default async function HomePage() {
+  const viewer = await getViewer();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
+    <main className="landing-shell">
+      <section className="landing-hero">
+        <div className="eyebrow">Private-first career evidence ledger</div>
+        <h1>Capture real proof first. Draft later. Publish only on purpose.</h1>
+        <p className="lede">
+          ResumeEvolver helps technical operators and side-project builders turn
+          real work evidence into traceable resume bullets and changelog drafts
+          without drifting into AI fiction.
+        </p>
+        <div className="landing-actions">
+          {viewer ? (
+            <Link href="/dashboard" className="button button-primary">
+              Go to dashboard
+            </Link>
+          ) : (
+            <GitHubSignInButton />
+          )}
+          <Link href="/auth/sign-in" className="button button-secondary">
+            View sign-in flow
+          </Link>
+        </div>
+      </section>
+
+      <section className="landing-grid">
+        <article className="card">
+          <h2>What it is</h2>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            A reusable ledger of evidence items with deliberate review and
+            approval before any draft is generated.
           </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        </article>
+        <article className="card">
+          <h2>What it is not</h2>
+          <p>
+            Not a social profile, not an ATS, not a fake-accomplishment engine,
+            and not a generic AI coach.
+          </p>
+        </article>
+        <article className="card">
+          <h2>Milestone 6 complete</h2>
+          <p>
+            Manual capture, deliberate review, Ledger, GitHub import, role
+            variants, resume drafting, and changelog drafting are now live on
+            top of the auth, schema, and RLS foundation.
+          </p>
+        </article>
+      </section>
+    </main>
   );
 }

@@ -1,0 +1,2 @@
+-- Milestone 1 intentionally keeps seed data minimal.
+-- Add deterministic fixture rows here only when a later milestone needs them.
