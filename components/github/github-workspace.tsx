@@ -51,6 +51,7 @@ export function GitHubWorkspace({
     [repos],
   );
   const canImport = importReady && !isPending && normalizedRepos.length > 0;
+  const needsRepository = importReady && !isPending && normalizedRepos.length === 0;
 
   function updateRepo(index: number, value: string) {
     setRepos((current) =>
@@ -235,6 +236,9 @@ export function GitHubWorkspace({
             {isPending ? "Importing..." : "Run GitHub import"}
           </button>
         </div>
+        {needsRepository ? (
+          <p className="muted small-text">Enter at least one repository to run an import.</p>
+        ) : null}
 
         {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
 
