@@ -1,0 +1,15 @@
+# ResumeEvolver canonical core verifier.
+# Keep this small: install, local quality checks, and production build.
+
+pnpm install
+pnpm check
+pnpm build
+
+# Database/RLS gate for schema, migration, policy, or derived-output work.
+# Run manually when the task touches database behavior:
+# pnpm db:reset
+# pnpm db:test
+
+# Browser smoke gate for protected route or user-flow changes.
+# Run manually when the task touches browser flows:
+# pnpm test:e2e

@@ -50,6 +50,7 @@ export function GitHubWorkspace({
     () => repos.map((repo) => repo.trim()).filter(Boolean),
     [repos],
   );
+  const canImport = importReady && !isPending && normalizedRepos.length > 0;
 
   function updateRepo(index: number, value: string) {
     setRepos((current) =>
@@ -229,7 +230,7 @@ export function GitHubWorkspace({
             type="button"
             className="button button-primary"
             onClick={handleImport}
-            disabled={!importReady || isPending}
+            disabled={!canImport}
           >
             {isPending ? "Importing..." : "Run GitHub import"}
           </button>

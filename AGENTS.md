@@ -41,6 +41,20 @@ Do not turn this into:
 
 Do not skip ahead without an explicit user request.
 
+## Commands
+
+`.codex/verify.commands` is the canonical verifier for routine Codex work.
+Do not invent verifier commands; if a needed command is missing or unclear, stop and report the gap.
+
+Core verifier:
+- `pnpm install`
+- `pnpm check`
+- `pnpm build`
+
+Use gated commands only when the task touches database/RLS or browser-flow behavior:
+- `pnpm db:reset && pnpm db:test`
+- `pnpm test:e2e`
+
 ## Coding rules
 
 - Use TypeScript throughout.
