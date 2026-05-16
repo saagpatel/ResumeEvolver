@@ -134,3 +134,44 @@ Work is only done when:
 - markdown, text, and JSON exports work
 - RLS prevents cross-user access
 - public-safe output remains explicit
+
+<!-- portfolio-context:start -->
+# Portfolio Context
+
+## What This Project Is
+
+ResumeEvolver is a resume/job-search operating tool that helps track evidence, derive approved resume outputs, and package private export snapshots for review cycles. It is currently a Next.js/TypeScript product with Supabase-style database/RLS concerns, export generation, and cadence dashboards for resume iteration.
+
+## Current State
+
+- Milestone 7 complete: approved derived outputs and selected evidence can now be saved as private export snapshots, and review-cycle guidance is live as a read-only cadence dashboard.
+- The roadmap is complete through Milestone 7. Any further work should be treated as post-v1 backlog, not an implicit Milestone 8.
+
+## Stack
+
+- Primary stack: Next.js, TypeScript
+- JavaScript package manager: npm-compatible workflow
+
+## How To Run
+
+`.codex/verify.commands` is the canonical verifier for routine Codex work.
+Do not invent verifier commands; if a needed command is missing or unclear, stop and report the gap.
+
+Core verifier:
+- `pnpm install`
+- `pnpm check`
+- `pnpm build`
+
+Use gated commands only when the task touches database/RLS or browser-flow behavior:
+- `pnpm db:reset && pnpm db:test`
+- `pnpm test:e2e`
+
+## Known Risks
+
+- This repo only has minimum-viable recovery context today; deeper handoff details may still live in the README and supporting docs.
+
+## Next Recommended Move
+
+Use this context plus the README and supporting docs to resume the next active task, then promote the repo beyond minimum-viable by capturing a dedicated handoff, roadmap, or discovery artifact.
+
+<!-- portfolio-context:end -->
