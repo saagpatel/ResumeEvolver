@@ -150,7 +150,7 @@ ResumeEvolver is a resume/job-search operating tool that helps track evidence, d
 ## Stack
 
 - Primary stack: Next.js, TypeScript
-- JavaScript package manager: npm-compatible workflow
+- JavaScript package manager: pnpm
 
 ## How To Run
 

@@ -52,7 +52,7 @@ The local Supabase OAuth callback URL is `http://127.0.0.1:54321/auth/v1/callbac
 
 Add `OPENAI_API_KEY` to enable evidence structuring in `/review`, real resume generation in `/resume`, and real changelog generation in `/changelog`. `OPENAI_MODEL_RESUME_GENERATE` and `OPENAI_MODEL_CHANGELOG_GENERATE` are optional and override the default generation models for their respective drafting routes. Without an API key, capture, review, GitHub import, roles, and existing derived drafts still work, but new AI drafting stays disabled unless local test mode is enabled.
 
-GitHub import runs from `/github`. Base sign-in stays narrow; the import workspace prompts for a separate GitHub reconnect step when import access is not available in the current session.
+Evidence capture runs from `/inbox`. GitHub import runs from `/github`. Base sign-in stays narrow; the import workspace prompts for a separate GitHub reconnect step when import access is not available in the current session.
 
 Exports run from `/exports` and save private markdown, text, or JSON snapshots into the product database before download. Review-cycle lives at `/review-cycle` and stays read-only by design.
 
