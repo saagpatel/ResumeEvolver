@@ -18,9 +18,15 @@ export default async function LedgerPage({ searchParams }: LedgerPageProps) {
   const supabase = await createClient();
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const filters = parseLedgerFilters(resolvedSearchParams);
+  let records: Awaited<ReturnType<typeof listLedgerEvidence>> = [];
+  let projectOptions: Awaited<ReturnType<typeof listLedgerProjectNames>> = [];
+  let selectedEvidence: Awaited<ReturnType<typeof getLedgerEvidenceDetail>> | null =
+    null;
+  let selectionMissing = false;
+  let errorMessage: string | undefined;
 
   try {
-    const [records, projectOptions] = await Promise.all([
+    [records, projectOptions] = await Promise.all([
       listLedgerEvidence(supabase, viewer.userId, filters),
       listLedgerProjectNames(supabase, viewer.userId),
     ]);
@@ -31,8 +37,8 @@ export default async function LedgerPage({ searchParams }: LedgerPageProps) {
     const selectedExistsInList = selectedEvidenceId
       ? records.some((record) => record.id === selectedEvidenceId)
       : false;
-    const selectionMissing = selectedRequested && !selectedExistsInList;
-    const selectedEvidence =
+    selectionMissing = selectedRequested && !selectedExistsInList;
+    selectedEvidence =
       selectedEvidenceId && selectedExistsInList
         ? await getLedgerEvidenceDetail(
             supabase,
@@ -40,26 +46,18 @@ export default async function LedgerPage({ searchParams }: LedgerPageProps) {
             selectedEvidenceId,
           )
         : null;
-
-    return (
-      <LedgerWorkspace
-        filters={filters}
-        records={records}
-        projectOptions={projectOptions}
-        selectedEvidence={selectedEvidence}
-        selectionMissing={selectionMissing}
-      />
-    );
   } catch (error) {
-    return (
-      <LedgerWorkspace
-        filters={filters}
-        records={[]}
-        projectOptions={[]}
-        selectedEvidence={null}
-        selectionMissing={false}
-        errorMessage={getErrorMessage(error)}
-      />
-    );
+    errorMessage = getErrorMessage(error);
   }
+
+  return (
+    <LedgerWorkspace
+      filters={filters}
+      records={records}
+      projectOptions={projectOptions}
+      selectedEvidence={selectedEvidence}
+      selectionMissing={selectionMissing}
+      errorMessage={errorMessage}
+    />
+  );
 }
