@@ -1,12 +1,15 @@
 # ResumeEvolver canonical core verifier.
 # Keep this small: install, local quality checks, and production build.
+# Run from the repository root; see README.md#verification-prerequisites-and-safe-lanes
+# for required nonempty Supabase build fields and nonsecret compile-only values.
 
 pnpm install
 pnpm check
 pnpm build
 
 # Database/RLS gate for schema, migration, policy, or derived-output work.
-# Run manually when the task touches database behavior:
+# Run manually when the task touches database behavior, using a disposable local
+# Supabase stack only: db:reset deletes local data.
 # pnpm db:reset
 # pnpm db:test
 

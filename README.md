@@ -9,7 +9,7 @@ ResumeEvolver is a private-first career evidence ledger for collecting proof of 
 
 ## Local setup
 
-1. Install dependencies:
+1. From the repository root, use Node.js 24.x or 26+ and pnpm (the local lane is tested with pnpm 12.8.1). Install dependencies:
 
 ```bash
 pnpm install
@@ -36,7 +36,7 @@ export SUPABASE_AUTH_EXTERNAL_GITHUB_SECRET=...
 pnpm db:start
 ```
 
-5. Reset the local database to the committed schema:
+5. Only for a disposable local development database, reset to the committed schema. This deletes local database data; skip it for a database containing work you need to preserve:
 
 ```bash
 pnpm db:reset
@@ -68,6 +68,44 @@ Exports run from `/exports` and save private markdown, text, or JSON snapshots i
 Database note:
 
 - treat `pnpm db:reset && pnpm db:test` as the truthful local DB gate for milestone work
+
+## Verification prerequisites and safe lanes
+
+`.codex/verify.commands` is the canonical routine verifier; run it from the
+repository root with the required build environment set. A copied `.env.example`
+contains empty Supabase fields: fill `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` before `pnpm build`, or use the following
+nonsecret, compile-only values in an isolated checkout:
+
+```sh
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321 \
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=verification-placeholder-nonsecret \
+OPENAI_API_KEY= pnpm build
+```
+
+These placeholders satisfy build-time validation; they do not establish a working
+Supabase connection, sign-in, RLS or AI generation. Do not use a real provider key
+for the compile-only lane. `pnpm check` runs ESLint, TypeScript and the full Vitest
+unit/integration fixture set. For a focused example, run:
+
+```sh
+pnpm test:unit tests/unit/export-contracts.test.ts
+```
+
+Vitest uses local fake-Supabase/server-only fixtures and does not need the Supabase
+stack. No formatter command is configured. For database/RLS changes, use an
+explicitly disposable local Supabase stack (Docker and Supabase CLI required),
+then the existing `pnpm db:reset && pnpm db:test` gate; never reset a personal or
+shared database as routine verification.
+
+For changed protected routes/user flows, the existing `pnpm test:e2e` lane requires
+Playwright's Chromium browser and free loopback port 3000. Its config starts a fresh
+`RESUMEEVOLVER_TEST_MODE=1` Next server and refuses to reuse another server. Install
+the test browser with `pnpm exec playwright install chromium` when needed. Keep
+public Supabase environment fields configured for the selected local test stack;
+test mode substitutes draft generation, not the entire database/authentication
+system. Do not point this lane at a production or personal database. Changes that
+only affect verification prose do not require a browser run.
 
 ## Product rules
 
