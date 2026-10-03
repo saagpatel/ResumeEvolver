@@ -9,7 +9,7 @@ ResumeEvolver is a private-first career evidence ledger for collecting proof of 
 
 ## Local setup
 
-1. From the repository root, use Node.js 22.12+ and pnpm (the local lane is tested with pnpm 12.8.1). Install dependencies:
+1. From the repository root, use Node.js 24.x or 26+ and pnpm (the local lane is tested with pnpm 12.8.1). Install dependencies:
 
 ```bash
 pnpm install
