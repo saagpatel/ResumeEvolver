@@ -47,6 +47,7 @@ For `resume_bullets`, `generation_metadata` in Milestone 5 is bounded to:
 - `generated_at`
 - `role_variant_id`
 - `selected_evidence_ids`
+- `supporting_evidence_ids`
 - `model`
 
 For `changelog_entries`, `generation_metadata` in Milestone 6 is bounded to:
