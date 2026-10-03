@@ -226,6 +226,6 @@ No additional roadmap write routes remain after Milestone 7.
 - `pnpm check` covers lint, typecheck, and Vitest only.
 - `pnpm db:reset && pnpm db:test` is the truthful local gate for database-policy and RLS verification.
 - `pnpm test:e2e` includes smoke coverage for protected product routes, including the GitHub workspace redirect when unauthenticated.
-- Milestone 5 adds authenticated smoke coverage for the resume drafting flow using deterministic local test auth and test-mode generation.
+- Milestone 5 adds authenticated smoke coverage for the resume drafting flow using a randomly generated local test user and deterministic test-mode generation.
 - Milestone 6 adds authenticated smoke coverage for changelog drafting, edited-draft blocking, and explicit discard-and-regenerate behavior.
 - Milestone 7 adds authenticated smoke coverage for saved export history and the read-only review-cycle page.
